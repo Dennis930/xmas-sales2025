@@ -221,9 +221,38 @@ function updateCountdown() {
     document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
 }
 
-// Initialize countdown
-updateCountdown();
-setInterval(updateCountdown, 1000);
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize countdown
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Initialize language
+    const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+    switchLanguage(savedLang);
+
+    // Initialize shopping cart
+    const cart = new ShoppingCart();
+
+    // Add event listeners for cart functionality
+    document.querySelector('.cart-icon').addEventListener('click', () => {
+        document.querySelector('.cart-panel').classList.add('active');
+    });
+
+    document.querySelector('.close-cart').addEventListener('click', () => {
+        document.querySelector('.cart-panel').classList.remove('active');
+    });
+
+    // Add to cart buttons
+    document.querySelectorAll('.add-to-cart').forEach((button, index) => {
+        button.addEventListener('click', () => {
+            cart.addItem(products[index]);
+        });
+    });
+
+    // Create snowflakes periodically
+    setInterval(createSnowflake, 300);
+});
 
 // Enhanced snowflake animation
 function createSnowflake() {
@@ -244,9 +273,6 @@ function createSnowflake() {
         snowflake.remove();
     }, 5000);
 }
-
-// Create snowflakes periodically
-setInterval(createSnowflake, 300);
 
 // Add scroll reveal animation
 const revealElements = document.querySelectorAll('.reveal');
@@ -381,25 +407,6 @@ class ShoppingCart {
         }, 3000);
     }
 }
-
-// Initialize shopping cart
-const cart = new ShoppingCart();
-
-// Add event listeners for cart functionality
-document.querySelector('.cart-icon').addEventListener('click', () => {
-    document.querySelector('.cart-panel').classList.add('active');
-});
-
-document.querySelector('.close-cart').addEventListener('click', () => {
-    document.querySelector('.cart-panel').classList.remove('active');
-});
-
-// Add to cart buttons
-document.querySelectorAll('.add-to-cart').forEach((button, index) => {
-    button.addEventListener('click', () => {
-        cart.addItem(products[index]);
-    });
-});
 
 // Product data structure
 const products = [
