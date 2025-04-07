@@ -23,6 +23,15 @@ header {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
 nav ul {
     display: flex;
     justify-content: center;
@@ -42,6 +51,30 @@ nav ul li a {
 
 nav ul li a:hover {
     color: #ffd700;
+}
+
+/* Language Switcher */
+.language-switcher {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.language-switcher button {
+    padding: 0.3rem 0.8rem;
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.language-switcher button.active {
+    background-color: white;
+    color: #c62828;
+}
+
+.language-switcher button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Main Content */

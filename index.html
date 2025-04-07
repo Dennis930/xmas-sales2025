@@ -10,60 +10,64 @@
     <header>
         <nav>
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#deals">Deals</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home" data-lang="home">Home</a></li>
+                <li><a href="#deals" data-lang="deals">Deals</a></li>
+                <li><a href="#about" data-lang="about">About</a></li>
+                <li><a href="#contact" data-lang="contact">Contact</a></li>
             </ul>
+            <div class="language-switcher">
+                <button id="lang-en" class="active">EN</button>
+                <button id="lang-zh">繁中</button>
+            </div>
         </nav>
     </header>
 
     <main>
         <section id="home" class="hero">
-            <h1>Christmas Sales 2025</h1>
-            <p>Discover amazing holiday deals and special offers!</p>
-            <button id="cta-button">View Deals</button>
+            <h1 data-lang="title">Christmas Sales 2025</h1>
+            <p data-lang="subtitle">Discover amazing holiday deals and special offers!</p>
+            <button id="cta-button" data-lang="view-deals">View Deals</button>
         </section>
 
         <section id="deals" class="deals">
-            <h2>Special Holiday Deals</h2>
+            <h2 data-lang="special-deals">Special Holiday Deals</h2>
             <div class="deal-cards">
                 <div class="deal-card">
-                    <h3>Early Bird Special</h3>
-                    <p>Get 20% off on all items</p>
-                    <button>Shop Now</button>
+                    <h3 data-lang="early-bird">Early Bird Special</h3>
+                    <p data-lang="early-bird-desc">Get 20% off on all items</p>
+                    <button data-lang="shop-now">Shop Now</button>
                 </div>
                 <div class="deal-card">
-                    <h3>Bundle Offers</h3>
-                    <p>Buy 2 get 1 free</p>
-                    <button>Shop Now</button>
+                    <h3 data-lang="bundle">Bundle Offers</h3>
+                    <p data-lang="bundle-desc">Buy 2 get 1 free</p>
+                    <button data-lang="shop-now">Shop Now</button>
                 </div>
                 <div class="deal-card">
-                    <h3>Flash Sale</h3>
-                    <p>Limited time offers</p>
-                    <button>Shop Now</button>
+                    <h3 data-lang="flash-sale">Flash Sale</h3>
+                    <p data-lang="flash-sale-desc">Limited time offers</p>
+                    <button data-lang="shop-now">Shop Now</button>
                 </div>
             </div>
         </section>
 
         <section id="about" class="about">
-            <h2>About Our Christmas Sale</h2>
-            <p>Join us for the biggest Christmas sale of 2025! We're offering amazing deals on a wide range of products. Don't miss out on these limited-time offers!</p>
+            <h2 data-lang="about-title">About Our Christmas Sale</h2>
+            <p data-lang="about-desc">Join us for the biggest Christmas sale of 2025! We're offering amazing deals on a wide range of products. Don't miss out on these limited-time offers!</p>
         </section>
 
         <section id="contact" class="contact">
-            <h2>Contact Us</h2>
+            <h2 data-lang="contact-title">Contact Us</h2>
             <form id="contact-form">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Message" required></textarea>
-                <button type="submit">Send Message</button>
+                <input type="text" placeholder="Your Name" data-lang="name-placeholder" required>
+                <input type="email" placeholder="Your Email" data-lang="email-placeholder" required>
+                <textarea placeholder="Your Message" data-lang="message-placeholder" required></textarea>
+                <button type="submit" data-lang="send-message">Send Message</button>
             </form>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 Xmas Sales. All rights reserved.</p>
+        <p data-lang="copyright">&copy; 2025 Xmas Sales. All rights reserved.</p>
     </footer>
 
     <script src="script.js"></script>
