@@ -43,7 +43,10 @@ const translations = {
         'minutes': 'Minutes',
         'seconds': 'Seconds',
         'added-to-cart': 'Added to cart!',
-        'view-cart': 'View Cart'
+        'view-cart': 'View Cart',
+        'shopping-cart': 'Shopping Cart',
+        'total': 'Total',
+        'checkout': 'Checkout'
     },
     zh: {
         'home': '首頁',
@@ -88,7 +91,10 @@ const translations = {
         'minutes': '分鐘',
         'seconds': '秒',
         'added-to-cart': '已加入購物車！',
-        'view-cart': '查看購物車'
+        'view-cart': '查看購物車',
+        'shopping-cart': '購物車',
+        'total': '總計',
+        'checkout': '結帳'
     }
 };
 
@@ -273,11 +279,85 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// Add to cart functionality
+// Shopping Cart Functionality
+const cart = {
+    items: [],
+    total: 0,
+    
+    addItem(product) {
+        this.items.push(product);
+        this.updateCart();
+    },
+    
+    removeItem(index) {
+        this.items.splice(index, 1);
+        this.updateCart();
+    },
+    
+    calculateTotal() {
+        this.total = this.items.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '')), 0);
+    },
+    
+    updateCart() {
+        this.calculateTotal();
+        this.updateCartUI();
+        this.updateCartCount();
+    },
+    
+    updateCartUI() {
+        const cartItems = document.querySelector('.cart-items');
+        const totalPrice = document.querySelector('.total-price');
+        
+        cartItems.innerHTML = '';
+        this.items.forEach((item, index) => {
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+            cartItem.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="cart-item-info">
+                    <h4 class="cart-item-title">${item.name}</h4>
+                    <span class="cart-item-price">${item.price}</span>
+                </div>
+                <button class="remove-item" onclick="cart.removeItem(${index})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+            cartItems.appendChild(cartItem);
+        });
+        
+        totalPrice.textContent = `$${this.total.toFixed(2)}`;
+    },
+    
+    updateCartCount() {
+        const cartCount = document.querySelector('.cart-count');
+        cartCount.textContent = this.items.length;
+    }
+};
+
+// Cart Panel Toggle
+const cartIcon = document.querySelector('.cart-icon');
+const cartPanel = document.querySelector('.cart-panel');
+const closeCart = document.querySelector('.close-cart');
+
+cartIcon.addEventListener('click', () => {
+    cartPanel.classList.add('active');
+});
+
+closeCart.addEventListener('click', () => {
+    cartPanel.classList.remove('active');
+});
+
+// Update Add to Cart buttons
 document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', function() {
         const productCard = this.closest('.product-card');
-        const productName = productCard.querySelector('h3').textContent;
+        const product = {
+            name: productCard.querySelector('h3').textContent,
+            price: productCard.querySelector('.sale-price').textContent,
+            image: productCard.querySelector('img').src
+        };
+        
+        cart.addItem(product);
         
         // Show success message
         const successMessage = document.createElement('div');
@@ -285,12 +365,8 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
         successMessage.textContent = translations[document.documentElement.lang]['added-to-cart'];
         productCard.appendChild(successMessage);
         
-        // Remove success message after 2 seconds
         setTimeout(() => {
             successMessage.remove();
         }, 2000);
-        
-        // Here you would typically add the product to a cart array or send to a backend
-        console.log(`Added to cart: ${productName}`);
     });
 }); 
