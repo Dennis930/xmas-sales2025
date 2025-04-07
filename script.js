@@ -285,17 +285,37 @@ const cart = {
     total: 0,
     
     addItem(product) {
-        this.items.push(product);
+        const existingItem = this.items.find(item => item.name === product.name);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            this.items.push({ ...product, quantity: 1 });
+        }
         this.updateCart();
+        this.saveCart();
     },
     
     removeItem(index) {
         this.items.splice(index, 1);
         this.updateCart();
+        this.saveCart();
+    },
+    
+    updateQuantity(index, quantity) {
+        if (quantity > 0) {
+            this.items[index].quantity = quantity;
+        } else {
+            this.removeItem(index);
+        }
+        this.updateCart();
+        this.saveCart();
     },
     
     calculateTotal() {
-        this.total = this.items.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '')), 0);
+        this.total = this.items.reduce((sum, item) => {
+            const price = parseFloat(item.price.replace('$', ''));
+            return sum + (price * item.quantity);
+        }, 0);
     },
     
     updateCart() {
@@ -316,7 +336,14 @@ const cart = {
                 <img src="${item.image}" alt="${item.name}">
                 <div class="cart-item-info">
                     <h4 class="cart-item-title">${item.name}</h4>
-                    <span class="cart-item-price">${item.price}</span>
+                    <div class="cart-item-price">
+                        ${item.price} × ${item.quantity}
+                    </div>
+                </div>
+                <div class="quantity-controls">
+                    <button onclick="cart.updateQuantity(${index}, ${item.quantity - 1})">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="cart.updateQuantity(${index}, ${item.quantity + 1})">+</button>
                 </div>
                 <button class="remove-item" onclick="cart.removeItem(${index})">
                     <i class="fas fa-trash"></i>
@@ -330,7 +357,20 @@ const cart = {
     
     updateCartCount() {
         const cartCount = document.querySelector('.cart-count');
-        cartCount.textContent = this.items.length;
+        const totalItems = this.items.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = totalItems;
+    },
+    
+    saveCart() {
+        localStorage.setItem('cart', JSON.stringify(this.items));
+    },
+    
+    loadCart() {
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+            this.items = JSON.parse(savedCart);
+            this.updateCart();
+        }
     }
 };
 
@@ -369,4 +409,9 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
             successMessage.remove();
         }, 2000);
     });
+});
+
+// Load cart from localStorage when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    cart.loadCart();
 }); 
