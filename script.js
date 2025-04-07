@@ -23,7 +23,14 @@ const translations = {
         'email-placeholder': 'Your Email',
         'message-placeholder': 'Your Message',
         'send-message': 'Send Message',
-        'copyright': '© 2025 Xmas Sales. All rights reserved.'
+        'copyright': '© 2025 Xmas Sales. All rights reserved.',
+        'success-message': 'Message sent successfully!',
+        'error-message': 'Please fill in all fields correctly.',
+        'countdown-title': 'Time Left Until Christmas:',
+        'days': 'Days',
+        'hours': 'Hours',
+        'minutes': 'Minutes',
+        'seconds': 'Seconds'
     },
     zh: {
         'home': '首頁',
@@ -48,115 +55,194 @@ const translations = {
         'email-placeholder': '您的電子郵件',
         'message-placeholder': '您的訊息',
         'send-message': '發送訊息',
-        'copyright': '© 2025 聖誕特賣。版權所有。'
+        'copyright': '© 2025 聖誕特賣。版權所有。',
+        'success-message': '訊息發送成功！',
+        'error-message': '請正確填寫所有欄位。',
+        'countdown-title': '距離聖誕節還有：',
+        'days': '天',
+        'hours': '小時',
+        'minutes': '分鐘',
+        'seconds': '秒'
     }
 };
 
-// Language switching functionality
+// Enhanced language switching functionality
 function switchLanguage(lang) {
-    // Update all elements with data-lang attribute
-    document.querySelectorAll('[data-lang]').forEach(element => {
-        const key = element.getAttribute('data-lang');
-        if (translations[lang][key]) {
-            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                element.placeholder = translations[lang][key];
-            } else {
-                element.textContent = translations[lang][key];
+    // Add transition effect
+    document.body.style.opacity = '0';
+    
+    setTimeout(() => {
+        // Update all elements with data-lang attribute
+        document.querySelectorAll('[data-lang]').forEach(element => {
+            const key = element.getAttribute('data-lang');
+            if (translations[lang][key]) {
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    element.placeholder = translations[lang][key];
+                } else {
+                    element.textContent = translations[lang][key];
+                }
             }
-        }
-    });
+        });
 
-    // Update active language button
-    document.querySelectorAll('.language-switcher button').forEach(button => {
-        button.classList.remove('active');
-    });
-    document.getElementById(`lang-${lang}`).classList.add('active');
+        // Update active language button
+        document.querySelectorAll('.language-switcher button').forEach(button => {
+            button.classList.remove('active');
+        });
+        document.getElementById(`lang-${lang}`).classList.add('active');
 
-    // Update HTML lang attribute
-    document.documentElement.lang = lang;
+        // Update HTML lang attribute
+        document.documentElement.lang = lang;
+
+        // Save language preference
+        localStorage.setItem('preferredLanguage', lang);
+
+        // Restore opacity
+        document.body.style.opacity = '1';
+    }, 300);
 }
 
 // Initialize language buttons
 document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en'));
 document.getElementById('lang-zh').addEventListener('click', () => switchLanguage('zh'));
 
-// Smooth scrolling for navigation links
+// Load saved language preference
+const savedLang = localStorage.getItem('preferredLanguage');
+if (savedLang) {
+    switchLanguage(savedLang);
+}
+
+// Add transition effect to body
+document.body.style.transition = 'opacity 0.3s ease';
+
+// Enhanced smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     });
 });
 
-// Form submission handling
+// Enhanced form handling
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        const currentLang = document.documentElement.lang;
-        const message = currentLang === 'en' 
-            ? 'Thank you for your message! We will get back to you soon with our Christmas deals!'
-            : '感謝您的訊息！我們將盡快回覆您關於聖誕優惠的資訊！';
-        alert(message);
-        contactForm.reset();
+        
+        const name = this.querySelector('input[type="text"]').value;
+        const email = this.querySelector('input[type="email"]').value;
+        const message = this.querySelector('textarea').value;
+        
+        if (name && email && message) {
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.textContent = translations[document.documentElement.lang]['success-message'];
+            this.appendChild(successMessage);
+            
+            // Reset form
+            this.reset();
+            
+            // Remove success message after 3 seconds
+            setTimeout(() => {
+                successMessage.remove();
+            }, 3000);
+        } else {
+            // Show error message
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'error-message';
+            errorMessage.textContent = translations[document.documentElement.lang]['error-message'];
+            this.appendChild(errorMessage);
+            
+            // Remove error message after 3 seconds
+            setTimeout(() => {
+                errorMessage.remove();
+            }, 3000);
+        }
     });
 }
 
-// CTA button animation
-const ctaButton = document.getElementById('cta-button');
-if (ctaButton) {
-    ctaButton.addEventListener('click', function() {
-        this.style.transform = 'scale(1.1)';
-        setTimeout(() => {
-            this.style.transform = 'scale(1)';
-            document.querySelector('#deals').scrollIntoView({
-                behavior: 'smooth'
-            });
-        }, 200);
-    });
-}
-
-// Add scroll-based header styling
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('header');
-    if (window.scrollY > 50) {
-        header.style.backgroundColor = 'rgba(198, 40, 40, 0.9)';
-    } else {
-        header.style.backgroundColor = '#c62828';
+// Christmas countdown timer
+function updateCountdown() {
+    const now = new Date();
+    const christmas = new Date(now.getFullYear(), 11, 25); // December 25th
+    
+    if (now.getMonth() === 11 && now.getDate() > 25) {
+        christmas.setFullYear(christmas.getFullYear() + 1);
     }
-});
+    
+    const diff = christmas - now;
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    document.getElementById('countdown-days').textContent = days;
+    document.getElementById('countdown-hours').textContent = hours;
+    document.getElementById('countdown-minutes').textContent = minutes;
+    document.getElementById('countdown-seconds').textContent = seconds;
+}
 
-// Add snowflake effect
+// Initialize countdown
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Enhanced snowflake animation
 function createSnowflake() {
     const snowflake = document.createElement('div');
+    snowflake.className = 'snowflake';
     snowflake.innerHTML = '❄';
-    snowflake.style.position = 'fixed';
-    snowflake.style.color = 'white';
-    snowflake.style.fontSize = Math.random() * 20 + 10 + 'px';
+    
+    // Random position and animation properties
     snowflake.style.left = Math.random() * 100 + 'vw';
-    snowflake.style.top = '-10px';
+    snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
     snowflake.style.opacity = Math.random();
-    snowflake.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+    snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
     
     document.body.appendChild(snowflake);
     
+    // Remove snowflake after animation
     setTimeout(() => {
         snowflake.remove();
     }, 5000);
 }
 
-// Add snowflake animation to CSS
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fall {
-        to {
-            transform: translateY(100vh) rotate(360deg);
-        }
-    }
-`;
-document.head.appendChild(style);
-
 // Create snowflakes periodically
-setInterval(createSnowflake, 300); 
+setInterval(createSnowflake, 300);
+
+// Add scroll reveal animation
+const revealElements = document.querySelectorAll('.reveal');
+
+function checkReveal() {
+    revealElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+            element.classList.add('active');
+        }
+    });
+}
+
+// Check reveal on scroll
+window.addEventListener('scroll', checkReveal);
+// Initial check
+checkReveal();
+
+// Add scroll-based header styling
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('header');
+    if (window.scrollY > 50) {
+        header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+    } else {
+        header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+        header.style.boxShadow = 'none';
+    }
+}); 
