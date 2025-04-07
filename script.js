@@ -215,10 +215,10 @@ function updateCountdown() {
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
     
-    document.getElementById('countdown-days').textContent = days;
-    document.getElementById('countdown-hours').textContent = hours;
-    document.getElementById('countdown-minutes').textContent = minutes;
-    document.getElementById('countdown-seconds').textContent = seconds;
+    document.getElementById('days').textContent = days.toString().padStart(2, '0');
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
 }
 
 // Initialize countdown
@@ -414,4 +414,36 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
 // Load cart from localStorage when page loads
 document.addEventListener('DOMContentLoaded', () => {
     cart.loadCart();
-}); 
+});
+
+// Product data structure
+const products = [
+    {
+        name: 'Premium Christmas Tree',
+        description: '7ft Premium Artificial Christmas Tree with LED Lights',
+        originalPrice: 299.99,
+        salePrice: 199.99,
+        image: 'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+    },
+    {
+        name: 'Christmas Ornament Set',
+        description: '24-Piece Handcrafted Glass Ornament Collection',
+        originalPrice: 89.99,
+        salePrice: 59.99,
+        image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+    },
+    {
+        name: 'LED Christmas Lights',
+        description: '100ft Smart LED String Lights with Remote Control',
+        originalPrice: 49.99,
+        salePrice: 29.99,
+        image: 'https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+    },
+    {
+        name: 'Christmas Wreath',
+        description: '24" Premium Artificial Christmas Wreath with Berries',
+        originalPrice: 79.99,
+        salePrice: 49.99,
+        image: 'https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+    }
+]; 
