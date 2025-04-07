@@ -2,12 +2,23 @@
 const translations = {
     en: {
         'home': 'Home',
+        'products': 'Products',
         'deals': 'Deals',
         'about': 'About',
         'contact': 'Contact',
         'title': 'Christmas Sales 2025',
         'subtitle': 'Discover amazing holiday deals and special offers!',
-        'view-deals': 'View Deals',
+        'view-products': 'View Products',
+        'featured-products': 'Featured Products',
+        'product1-name': 'Premium Christmas Tree',
+        'product1-desc': '7ft Premium Artificial Christmas Tree with LED Lights',
+        'product2-name': 'Christmas Ornament Set',
+        'product2-desc': '24-Piece Handcrafted Glass Ornament Collection',
+        'product3-name': 'LED Christmas Lights',
+        'product3-desc': '100ft Smart LED String Lights with Remote Control',
+        'product4-name': 'Christmas Wreath',
+        'product4-desc': '24" Premium Artificial Christmas Wreath with Berries',
+        'add-to-cart': 'Add to Cart',
         'special-deals': 'Special Holiday Deals',
         'early-bird': 'Early Bird Special',
         'early-bird-desc': 'Get 20% off on all items',
@@ -30,16 +41,29 @@ const translations = {
         'days': 'Days',
         'hours': 'Hours',
         'minutes': 'Minutes',
-        'seconds': 'Seconds'
+        'seconds': 'Seconds',
+        'added-to-cart': 'Added to cart!',
+        'view-cart': 'View Cart'
     },
     zh: {
         'home': '首頁',
+        'products': '產品',
         'deals': '優惠',
         'about': '關於',
         'contact': '聯絡我們',
         'title': '2025 聖誕特賣',
         'subtitle': '發現超值節日優惠和特別優待！',
-        'view-deals': '查看優惠',
+        'view-products': '查看產品',
+        'featured-products': '精選產品',
+        'product1-name': '優質聖誕樹',
+        'product1-desc': '7英尺優質人造聖誕樹，帶LED燈',
+        'product2-name': '聖誕裝飾品套裝',
+        'product2-desc': '24件手工玻璃裝飾品套裝',
+        'product3-name': 'LED聖誕燈飾',
+        'product3-desc': '100英尺智能LED串燈，帶遙控器',
+        'product4-name': '聖誕花環',
+        'product4-desc': '24英寸優質人造聖誕花環，帶漿果',
+        'add-to-cart': '加入購物車',
         'special-deals': '節日特別優惠',
         'early-bird': '早鳥優惠',
         'early-bird-desc': '全場商品 8 折',
@@ -62,7 +86,9 @@ const translations = {
         'days': '天',
         'hours': '小時',
         'minutes': '分鐘',
-        'seconds': '秒'
+        'seconds': '秒',
+        'added-to-cart': '已加入購物車！',
+        'view-cart': '查看購物車'
     }
 };
 
@@ -245,4 +271,26 @@ window.addEventListener('scroll', function() {
         header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
         header.style.boxShadow = 'none';
     }
+});
+
+// Add to cart functionality
+document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function() {
+        const productCard = this.closest('.product-card');
+        const productName = productCard.querySelector('h3').textContent;
+        
+        // Show success message
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-message';
+        successMessage.textContent = translations[document.documentElement.lang]['added-to-cart'];
+        productCard.appendChild(successMessage);
+        
+        // Remove success message after 2 seconds
+        setTimeout(() => {
+            successMessage.remove();
+        }, 2000);
+        
+        // Here you would typically add the product to a cart array or send to a backend
+        console.log(`Added to cart: ${productName}`);
+    });
 }); 
