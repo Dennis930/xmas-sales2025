@@ -424,34 +424,34 @@ class ShoppingCart {
     }
 }
 
-// Product data structure
+// Product data
 const products = [
     {
-        name: 'Premium Christmas Tree',
-        description: '7ft Premium Artificial Christmas Tree with LED Lights',
-        originalPrice: 299.99,
-        salePrice: 199.99,
-        image: 'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+        id: 1,
+        name: "Premium Christmas Tree",
+        price: 199.99,
+        image: "https://images.unsplash.com/photo-1606830733744-0ad778449672?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=500&q=80",
+        description: "A beautiful 7-foot artificial Christmas tree with pre-lit LED lights and realistic pine needles."
     },
     {
-        name: 'Christmas Ornament Set',
-        description: '24-Piece Handcrafted Glass Ornament Collection',
-        originalPrice: 89.99,
-        salePrice: 59.99,
-        image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+        id: 2,
+        name: "Christmas Ornament Set",
+        price: 49.99,
+        image: "https://images.unsplash.com/photo-1579101193474-3b1a5d1a5b1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=500&q=80",
+        description: "Set of 24 handcrafted glass ornaments in various festive designs."
     },
     {
-        name: 'LED Christmas Lights',
-        description: '100ft Smart LED String Lights with Remote Control',
-        originalPrice: 49.99,
-        salePrice: 29.99,
-        image: 'https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+        id: 3,
+        name: "LED Christmas Lights",
+        price: 29.99,
+        image: "https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=500&q=80",
+        description: "100 LED string lights with 8 different lighting modes and remote control."
     },
     {
-        name: 'Christmas Wreath',
-        description: '24" Premium Artificial Christmas Wreath with Berries',
-        originalPrice: 79.99,
-        salePrice: 49.99,
-        image: 'https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+        id: 4,
+        name: "Christmas Wreath",
+        price: 39.99,
+        image: "https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=500&q=80",
+        description: "24-inch artificial wreath with pine cones, berries, and LED lights."
     }
 ]; 
