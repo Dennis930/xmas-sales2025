@@ -110,33 +110,48 @@ nav {
 }
 
 /* Countdown Timer */
-.countdown-container {
+.countdown {
     background: rgba(0, 0, 0, 0.6);
     padding: 2rem;
     border-radius: 10px;
     margin-top: 2rem;
+    text-align: center;
 }
 
-.countdown {
+.countdown h2 {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.countdown-timer {
     display: flex;
     justify-content: center;
     gap: 2rem;
-    margin-top: 1rem;
+    flex-wrap: wrap;
 }
 
 .countdown-item {
     text-align: center;
+    min-width: 80px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 5px;
 }
 
 .countdown-item span:first-child {
     font-size: 2.5rem;
     font-weight: bold;
+    color: white;
     display: block;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .countdown-item span:last-child {
     font-size: 1rem;
-    opacity: 0.8;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
 }
 
 /* CTA Button */
@@ -489,8 +504,11 @@ footer {
 
 .product-image {
     position: relative;
+    width: 100%;
     padding-top: 100%;
     overflow: hidden;
+    border-radius: 10px;
+    background: #f8f9fa;
 }
 
 .product-image img {
@@ -503,8 +521,8 @@ footer {
     transition: transform 0.3s ease;
 }
 
-.product-card:hover .product-image img {
-    transform: scale(1.1);
+.product-image img:hover {
+    transform: scale(1.05);
 }
 
 .product-info {
@@ -727,4 +745,20 @@ footer {
     .hero p {
         font-size: 1.2rem;
     }
+}
+
+/* Loading Animation */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.product-image img.loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 2000px 100%;
+    animation: shimmer 2s infinite linear;
 } 

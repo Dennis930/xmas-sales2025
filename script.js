@@ -199,6 +199,17 @@ if (contactForm) {
     });
 }
 
+// Image loading handling
+document.querySelectorAll('.product-image img').forEach(img => {
+    img.classList.add('loading');
+    img.onload = () => {
+        img.classList.remove('loading');
+    };
+    img.onerror = () => {
+        img.classList.remove('loading');
+    };
+});
+
 // Christmas countdown timer
 function updateCountdown() {
     const now = new Date();
@@ -215,10 +226,15 @@ function updateCountdown() {
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
     
-    document.getElementById('days').textContent = days.toString().padStart(2, '0');
-    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    const daysElement = document.getElementById('days');
+    const hoursElement = document.getElementById('hours');
+    const minutesElement = document.getElementById('minutes');
+    const secondsElement = document.getElementById('seconds');
+    
+    if (daysElement) daysElement.textContent = days.toString().padStart(2, '0');
+    if (hoursElement) hoursElement.textContent = hours.toString().padStart(2, '0');
+    if (minutesElement) minutesElement.textContent = minutes.toString().padStart(2, '0');
+    if (secondsElement) secondsElement.textContent = seconds.toString().padStart(2, '0');
 }
 
 // Initialize everything when DOM is loaded
